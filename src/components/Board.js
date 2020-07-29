@@ -33,12 +33,14 @@ export default function SpacingGrid() {
   const classes = useStyles();
   const [color, setColor] = useState(["13.12", "13.13", "12.12"]);
   const [start, setStart] = useState(false);
-  console.log("color", color);
-  console.log("start", start);
+  const [go, setGo] = useState(false);
+  const [speed, setSpeed] = useState(1000);
+  console.log("color", speed);
+  // console.log("start", start);
 
   //inital set up
   let arr = [];
-  console.log(typeof [])
+  //console.log(typeof [])
   for (let i = 1; i < 27; i++) {
     for (let j = 1; j < 27; j++) {
       let row = i.toString();
@@ -47,47 +49,28 @@ export default function SpacingGrid() {
       arr.push(value);
     }
   }
-  //console.log(arr);
-  //find inital limits
-  function Limits(color) {
-    let rowLimits = [];
-    let colLimits = [];
-    let rows = [];
-    let cols = [];
-    for (let i = 0; i < color.length; i++) {
-      let sep = color[i].split(".");
-      let row = parseInt(sep[0]);
-      let col = parseInt(sep[1]);
-      rows.push(row);
-      cols.push(col);
-    }
 
-    let minR = Math.min(...rows) - 1;
-    if (minR < 0) {
-      minR = 0;
+  function speedFaster(){
+    if (speed > 0){
+      setSpeed(speed - 1)
     }
-    let maxR = Math.max(...rows) + 1;
-    if (minR > 26) {
-      minR = 26;
-    }
-    rowLimits.push(minR, maxR);
-    let minC = Math.min(...cols) - 1;
-    if (minC < 0) {
-      minC = 0;
-    }
-    let maxC = Math.max(...cols) + 1;
-    if (minC > 26) {
-      minC = 26;
-    }
-    colLimits.push(minC, maxC);
-    return [colLimits, rowLimits];
   }
-  //console.log(rowLimits[0], rowLimits[1], colLimits[0], colLimits[1]);
+  function speedSlower(){
+    if (speed > 0){
+      setSpeed(speed + 1)
+    }
+  }
 
+  if (start){
+    setTimeout(function () {
+      setGo(!go)
+    }, [speed])
+  }
+console.log('go',go)
  
   useEffect(() => {
     //e.preventDefault()
-    if (start) {
+    if (go) {
       console.log("running");
      // let [colLimits, rowLimits] = Limits(color)
 
@@ -146,7 +129,7 @@ export default function SpacingGrid() {
             }
             
             if (count === 2 || count === 3) {
-              console.log('put into array',arr[i])
+              //console.log('put into array',arr[i])
               newArray.push(arr[i])
             } 
           }
@@ -154,7 +137,7 @@ export default function SpacingGrid() {
       //   }, [1000])
       // }
     }
-  }, [start]);
+  }, [go]);
   
   let value = "13.13";
   let sep = value.split(".");
@@ -180,8 +163,12 @@ export default function SpacingGrid() {
          
           ))}
         </Grid>
-        <button onClick={() => setStart(!start)}>Start</button>
+        <button onClick={() => setStart(true)}>Start</button>
+        <button onClick={() => setStart(false)}>Stop</button>
         <button onClick={() => setColor([])}>Reset</button>
+        <button onClick={speedFaster}>Faster</button>
+        <button onClick={speedSlower}>Slower</button>
+      
       </Grid>
     </Grid>
   );
