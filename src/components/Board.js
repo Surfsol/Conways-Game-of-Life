@@ -36,6 +36,8 @@ export default function SpacingGrid() {
   const [go, setGo] = useState(false);
   const [speed, setSpeed] = useState(1000);
   const [colorOptions, setColorOptions] = useState(['red']);
+  const [count, setCount] = useState(0)
+  const [tall, setTall] = useState(30)
   console.log("color", speed);
   // console.log("start", start);
 
@@ -51,6 +53,16 @@ export default function SpacingGrid() {
     }
   }
 
+  function plus(){
+    setTall(tall+2)
+  }
+
+  function minus(){
+    if (tall > 10){
+    setTall(tall-2)
+    }
+  }
+
   function speedFaster() {
     if (speed > 0) {
       setSpeed(speed - 1);
@@ -61,11 +73,12 @@ export default function SpacingGrid() {
       setSpeed(speed + 1);
     }
   }
-
+ 
   if (start) {
     setTimeout(
       function () {
         setGo(!go);
+        setCount(count+1)
       },
       [speed]
     );
@@ -166,8 +179,9 @@ export default function SpacingGrid() {
         <Grid container xs={2} spacing={1} style={{ height: "30px" }}>
           <h1>Display Colors: </h1>
           {colorOptions.map((value) => (
-            <Grid item>{value}</Grid>
+            <Grid item>{value} </Grid>
           ))}
+          <h1>Generation: {count}</h1>
         </Grid>
         <button onClick={() => setColorOptions([])}>Clear Color Options</button>
      
@@ -184,6 +198,7 @@ export default function SpacingGrid() {
               color={color}
               setColor={setColor}
               colorOptions={colorOptions}
+              tall={tall}
             />
           ))}
         </Grid>
@@ -192,6 +207,8 @@ export default function SpacingGrid() {
         <button onClick={() => setColor([])}>Reset</button>
         <button onClick={speedFaster}>Faster</button>
         <button onClick={speedSlower}>Slower</button>
+        <button onClick={plus}>Bigger</button>
+        <button onClick={minus}>Smaller</button>
       </Grid>
     </Grid>
   );
