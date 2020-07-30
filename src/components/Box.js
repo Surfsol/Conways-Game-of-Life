@@ -6,25 +6,25 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
 
   paper: {
-    height: 30,
-    width: 30,
+    // height: 30,
+    // width: 30,
   },
   colors: {
     background: "red",
-    height: 30,
-    width: 30,
+    // height: 30,
+    // width: 30,
   },
   blank: {
-    height: 30,
-    width: 30,
+    // height: 30,
+    // width: 30,
    // background: "white",
   },
 }));
 
 
 
-const Box = ({ value, color, setColor, colorOptions }) => {
-
+const Box = ({ value, color, setColor, colorOptions, tall }) => {
+console.log(tall)
   
   let colorBox = 'white'
   if (color.includes(value)){
@@ -49,8 +49,7 @@ const Box = ({ value, color, setColor, colorOptions }) => {
           onClick={add}
           value = {value}
           className={classes.blank}
-          // className={color.includes(value) ? classes.colors : classes.blank}
-          style={{background:colorBox}}
+          style={{background:colorBox, height:tall, width:tall}}
         ></Paper>
       </Grid>
     </>
