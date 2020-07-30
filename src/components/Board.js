@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import Box from "./Box";
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +35,7 @@ export default function SpacingGrid() {
   const [start, setStart] = useState(false);
   const [go, setGo] = useState(false);
   const [speed, setSpeed] = useState(1000);
+  const [colorOptions, setColorOptions] = useState(['red']);
   console.log("color", speed);
   // console.log("start", start);
 
@@ -50,95 +51,90 @@ export default function SpacingGrid() {
     }
   }
 
-  function speedFaster(){
-    if (speed > 0){
-      setSpeed(speed - 1)
+  function speedFaster() {
+    if (speed > 0) {
+      setSpeed(speed - 1);
     }
   }
-  function speedSlower(){
-    if (speed > 0){
-      setSpeed(speed + 1)
+  function speedSlower() {
+    if (speed > 0) {
+      setSpeed(speed + 1);
     }
   }
 
-  if (start){
-    setTimeout(function () {
-      setGo(!go)
-    }, [speed])
+  if (start) {
+    setTimeout(
+      function () {
+        setGo(!go);
+      },
+      [speed]
+    );
   }
-console.log('go',go)
- 
+  console.log("go", go);
+
   useEffect(() => {
     //e.preventDefault()
     if (go) {
       console.log("running");
-     // let [colLimits, rowLimits] = Limits(color)
+      // let [colLimits, rowLimits] = Limits(color)
 
       //
       // while(start){
       //   setTimeout(function () {
-        let newArray = []
-        for (let i = 0; i < arr.length; i++) {
-          let sep = arr[i].split(".");
-          let row = parseInt(sep[0]);
-          let col = parseInt(sep[1]);
-          let count = 0;
-          // if (
-          //   row >= rowLimits[0] &&
-          //   row <= rowLimits[1] &&
-          //   col >= colLimits[0] &&
-          //   col <= colLimits[1]
-          // ) {
-            if (color.includes(row.toString() + "." + (col + 1).toString())) {
-              count += 1;
-            }
-            if (color.includes(row.toString() + "." + (col - 1).toString())) {
-              count += 1;
-            }
+      let newArray = [];
+      for (let i = 0; i < arr.length; i++) {
+        let sep = arr[i].split(".");
+        let row = parseInt(sep[0]);
+        let col = parseInt(sep[1]);
+        let count = 0;
+        // if (
+        //   row >= rowLimits[0] &&
+        //   row <= rowLimits[1] &&
+        //   col >= colLimits[0] &&
+        //   col <= colLimits[1]
+        // ) {
+        if (color.includes(row.toString() + "." + (col + 1).toString())) {
+          count += 1;
+        }
+        if (color.includes(row.toString() + "." + (col - 1).toString())) {
+          count += 1;
+        }
 
-            if (color.includes((row + 1).toString() + "." + col.toString())) {
-              count += 1;
-            }
+        if (color.includes((row + 1).toString() + "." + col.toString())) {
+          count += 1;
+        }
 
-            if (color.includes((row - 1).toString() + "." + col.toString())) {
-              count += 1;
-            }
+        if (color.includes((row - 1).toString() + "." + col.toString())) {
+          count += 1;
+        }
 
-            if (
-              color.includes((row + 1).toString() + "." + (col - 1).toString())
-            ) {
-              count += 1;
-            }
+        if (color.includes((row + 1).toString() + "." + (col - 1).toString())) {
+          count += 1;
+        }
 
-            if (
-              color.includes((row + 1).toString() + "." + (col + 1).toString())
-            ) {
-              count += 1;
-            }
+        if (color.includes((row + 1).toString() + "." + (col + 1).toString())) {
+          count += 1;
+        }
 
-            if (
-              color.includes((row - 1).toString() + "." + (col - 1).toString())
-            ) {
-              count += 1;
-            }
+        if (color.includes((row - 1).toString() + "." + (col - 1).toString())) {
+          count += 1;
+        }
 
-            if (
-              color.includes((row - 1).toString() + "." + (col + 1).toString())
-            ) {
-              count += 1;
-            }
-            
-            if (count === 2 || count === 3) {
-              //console.log('put into array',arr[i])
-              newArray.push(arr[i])
-            } 
-          }
-          setColor(newArray)
+        if (color.includes((row - 1).toString() + "." + (col + 1).toString())) {
+          count += 1;
+        }
+
+        if (count === 2 || count === 3) {
+          //console.log('put into array',arr[i])
+          newArray.push(arr[i]);
+        }
+      }
+      setColor(newArray);
       //   }, [1000])
       // }
     }
   }, [go]);
-  
+
   let value = "13.13";
   let sep = value.split(".");
   let row = parseInt(sep[0]);
@@ -154,13 +150,41 @@ console.log('go',go)
 
   //console.log(right, left, top, bottom, rt, lt, rb, lb);
 
+  const handleChange = event => {
+    console.log('event', event.target.value)
+    event.preventDefault();
+    setColorOptions([
+      ...colorOptions,
+        event.target.value
+    ]);
+  };
+  console.log(colorOptions)
+
   return (
     <Grid container className={classes.root} spacing={2}>
       <Grid item xs={12}>
+        <Grid container xs={2} spacing={1} style={{ height: "30px" }}>
+          <h1>Display Colors: </h1>
+          {colorOptions.map((value) => (
+            <Grid item>{value}</Grid>
+          ))}
+        </Grid>
+        <button onClick={() => setColorOptions([])}>Clear Color Options</button>
+     
+     <div>
+        <input type="text" onClick={ handleChange } />
+       
+      </div>
+
         <Grid container className={classes.grid} justify="center" spacing={0}>
           {arr.map((value) => (
-            <Box key={value} value={value} color={color} setColor={setColor}/>
-         
+            <Box
+              key={value}
+              value={value}
+              color={color}
+              setColor={setColor}
+              colorOptions={colorOptions}
+            />
           ))}
         </Grid>
         <button onClick={() => setStart(true)}>Start</button>
@@ -168,7 +192,6 @@ console.log('go',go)
         <button onClick={() => setColor([])}>Reset</button>
         <button onClick={speedFaster}>Faster</button>
         <button onClick={speedSlower}>Slower</button>
-      
       </Grid>
     </Grid>
   );

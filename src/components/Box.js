@@ -17,13 +17,22 @@ const useStyles = makeStyles((theme) => ({
   blank: {
     height: 30,
     width: 30,
-    background: "white",
+   // background: "white",
   },
 }));
 
 
 
-const Box = ({ value, color, setColor }) => {
+const Box = ({ value, color, setColor, colorOptions }) => {
+
+  
+  let colorBox = 'white'
+  if (color.includes(value)){
+    colorBox = colorOptions[Math.floor(Math.random() * colorOptions.length)]
+    console.log(colorBox)
+  } else {
+    colorBox = 'white'
+  }
 
   const classes = useStyles();
 
@@ -40,7 +49,8 @@ const Box = ({ value, color, setColor }) => {
           onClick={add}
           value = {value}
           className={classes.blank}
-          className={color.includes(value) ? classes.colors : classes.blank}
+          // className={color.includes(value) ? classes.colors : classes.blank}
+          style={{background:colorBox}}
         ></Paper>
       </Grid>
     </>
