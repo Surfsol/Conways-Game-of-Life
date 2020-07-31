@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Box from "./Box";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    background:'#85A7CB'
   },
   grid: {
     maxWidth: "780px",
@@ -35,9 +36,9 @@ export default function SpacingGrid() {
   const [start, setStart] = useState(false);
   const [go, setGo] = useState(false);
   const [speed, setSpeed] = useState(1000);
-  const [colorOptions, setColorOptions] = useState(['red']);
-  const [count, setCount] = useState(0)
-  const [tall, setTall] = useState(30)
+  const [colorOptions, setColorOptions] = useState(["purple"]);
+  const [count, setCount] = useState(0);
+  const [tall, setTall] = useState(30);
   console.log("color", speed);
   // console.log("start", start);
 
@@ -53,32 +54,32 @@ export default function SpacingGrid() {
     }
   }
 
-  function plus(){
-    setTall(tall+2)
+  function plus() {
+    setTall(tall + 2);
   }
 
-  function minus(){
-    if (tall > 10){
-    setTall(tall-2)
+  function minus() {
+    if (tall > 10) {
+      setTall(tall - 2);
     }
   }
 
   function speedFaster() {
     if (speed > 0) {
-      setSpeed(speed - 1);
+      setSpeed(speed - 10);
     }
   }
   function speedSlower() {
     if (speed > 0) {
-      setSpeed(speed + 1);
+      setSpeed(speed + 10);
     }
   }
- 
+
   if (start) {
     setTimeout(
       function () {
         setGo(!go);
-        setCount(count+1)
+        setCount(count + 1);
       },
       [speed]
     );
@@ -163,32 +164,47 @@ export default function SpacingGrid() {
 
   //console.log(right, left, top, bottom, rt, lt, rb, lb);
 
-  const handleChange = event => {
-    console.log('event', event.target.value)
+  const handleChange = (event) => {
+    console.log("event", event.target.value);
     event.preventDefault();
-    setColorOptions([
-      ...colorOptions,
-        event.target.value
-    ]);
+    setColorOptions([...colorOptions, event.target.value]);
   };
-  console.log(colorOptions)
+  console.log(colorOptions);
 
   return (
     <Grid container className={classes.root} spacing={2}>
       <Grid item xs={12}>
         <Grid container xs={2} spacing={1} style={{ height: "30px" }}>
-          <h1>Display Colors: </h1>
+        <Grid item><h3 style={{margin:'5%'}}>Display Colors: </h3></Grid>
+         <Grid container style={{margin:'5%'}}>
           {colorOptions.map((value) => (
-            <Grid item>{value} </Grid>
+            <Grid item style={{margin:'2%'}}>{value} </Grid>
           ))}
-          <h1>Generation: {count}</h1>
+          </Grid>
+          <Grid container style={{margin:'5%'}}><h1>Generation: {count}</h1></Grid>
+          <Grid container style={{margin:'5%'}}>
+          <button onClick={() => setStart(true)}>Start</button>
+          <button onClick={() => setStart(false)}>Stop</button>
+          <button onClick={() => setColor([])}>Reset</button>
+          </Grid>
+          <Grid container style={{margin:'5%'}}><h3>Speed</h3></Grid>
+          <Grid container style={{margin:'5%'}}>
+           
+          <button onClick={speedFaster}>Faster</button>
+          <button onClick={speedSlower}>Slower</button>
+          </Grid>
+          <Grid container style={{margin:'5%'}}><h3>Size</h3></Grid>
+          <Grid container style={{margin:'5%'}}>
+          
+          <button onClick={plus}>Bigger</button>
+          <button onClick={minus}>Smaller</button>
+          </Grid>
         </Grid>
         <button onClick={() => setColorOptions([])}>Clear Color Options</button>
-     
-     <div>
-        <input type="text" onClick={ handleChange } />
-       
-      </div>
+
+        <div>
+          <input type="text" onClick={handleChange} />
+        </div>
 
         <Grid container className={classes.grid} justify="center" spacing={0}>
           {arr.map((value) => (
@@ -202,13 +218,15 @@ export default function SpacingGrid() {
             />
           ))}
         </Grid>
-        <button onClick={() => setStart(true)}>Start</button>
+        {/* <button onClick={() => setStart(true)}>Start</button>
         <button onClick={() => setStart(false)}>Stop</button>
         <button onClick={() => setColor([])}>Reset</button>
+        <br></br>
         <button onClick={speedFaster}>Faster</button>
         <button onClick={speedSlower}>Slower</button>
+        <br></br>
         <button onClick={plus}>Bigger</button>
-        <button onClick={minus}>Smaller</button>
+        <button onClick={minus}>Smaller</button> */}
       </Grid>
     </Grid>
   );
